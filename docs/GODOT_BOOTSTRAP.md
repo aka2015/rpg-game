@@ -49,14 +49,18 @@ project/
 - `GameManager` sudah disiapkan sebagai Autoload.
 - HUD telah subscribe event `QuestProgressChangedEvent` dari `EventBus`.
 
-## 5) Langkah Implementasi Berikutnya
-1. Tambah input map (`move_left`, `move_right`, `move_forward`, `move_back`) di Project Settings.
-2. Lengkapi collision shape player dan enemy agar interaksi fisik valid.
-3. Hubungkan flow combat -> enemy death -> quest progress event.
-4. Tambahkan tombol quick save/load untuk validasi `SaveManager`.
-5. Buat scene test quest giver NPC.
+## 5) Status Implementasi Lanjutan
+1. Input map dasar sudah ditambahkan di `project.godot` (`move_*`, `interact`, `attack_test`, `quick_save`, `quick_load`).
+2. `WorldController` sudah menghubungkan flow `EnemyDiedEvent -> QuestManager.RegisterEnemyDeath`.
+3. Quick save/load dasar sudah ditambahkan via input (`F5`/`F6`) ke `user://save_01.json`.
+4. Scene `QuestGiver` sudah ditambahkan untuk start quest via aksi `interact`.
 
-## 6) Definition of Done Bootstrap
+## 6) Langkah Berikutnya
+1. Tambahkan combat jarak dekat aktual (raycast/hitbox dari player, bukan `attack_test`).
+2. Sinkronisasi load data ke `QuestRuntime` agar progress save benar-benar dipulihkan.
+3. Tambahkan feedback visual untuk enemy hit/death dan quest complete.
+
+## 7) Definition of Done Bootstrap
 - Scene bootstrap bisa load world scene.
 - Event bus dapat publish/subscribe event dasar.
 - 1 loop gameplay berjalan: bunuh enemy -> progress quest naik -> UI update.
