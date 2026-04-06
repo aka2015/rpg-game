@@ -7,6 +7,7 @@ public partial class EnemyDummy : Node3D
 {
     [Export] public string EnemyId = "enemy_dummy";
     [Export] public int MaxHp = 50;
+    [Export] public float HitFeedbackScale = 1.08f;
 
     private EnemyStats _stats = default!;
 
@@ -19,6 +20,7 @@ public partial class EnemyDummy : Node3D
     public void ApplyDamage(int incoming)
     {
         var isDead = _stats.ApplyDamage(incoming);
+        PlayHitFeedback();
 
         if (GameManager.Instance != null)
         {
@@ -37,5 +39,13 @@ public partial class EnemyDummy : Node3D
         }
 
         QueueFree();
+    }
+
+    private void PlayHitFeedback()
+    {
+        var originalScale = Scale;
+        var tween = CreateTween();
+        tween.TweenProperty(this, "scale", originalScale * HitFeedbackScale, 0.06f);
+        tween.TweenProperty(this, "scale", originalScale, 0.08f);
     }
 }

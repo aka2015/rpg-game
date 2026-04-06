@@ -8,6 +8,8 @@ script = ExtResource("1_pc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("2_cam")
 

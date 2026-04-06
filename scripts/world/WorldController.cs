@@ -98,6 +98,9 @@ public partial class WorldController : Node3D
             return;
         }
 
+        var comboStep = (_comboIndex % _comboDamages.Length) + 1;
+        player.PlayAttackAnimation(comboStep);
+
         var from = player.GlobalPosition + Vector3.Up;
         var forward = -player.GlobalBasis.Z;
         var to = from + forward * AttackRange;
