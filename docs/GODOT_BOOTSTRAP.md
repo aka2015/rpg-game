@@ -43,15 +43,20 @@ project/
 - `Assets/_Project/Scripts/Save` -> `scripts/save`
 - `Assets/_Project/Scripts/UI` -> `scripts/ui`
 
-## 4) Langkah Implementasi Pertama di Godot
-1. Buat scene `Bootstrap.tscn` dan autoload `GameManager`.
-2. Implement event bus sederhana (signal atau custom dispatcher).
-3. Port `PlayerStats`, `EnemyStats`, dan `DamageCalculator`.
-4. Port `QuestRuntime` + `QuestManager` untuk kill-quest.
-5. Buat HUD minimal (HP/Stamina/Quest progress).
-6. Tambahkan save/load JSON.
+## 4) Status Port yang Sudah Ada
+- `project.godot` sudah dibuat dengan `Bootstrap.tscn` sebagai main scene.
+- Scene awal sudah dibuat: `Bootstrap`, `World`, `Player`, `EnemyDummy`, dan `Hud`.
+- `GameManager` sudah disiapkan sebagai Autoload.
+- HUD telah subscribe event `QuestProgressChangedEvent` dari `EventBus`.
 
-## 5) Definition of Done Bootstrap
+## 5) Langkah Implementasi Berikutnya
+1. Tambah input map (`move_left`, `move_right`, `move_forward`, `move_back`) di Project Settings.
+2. Lengkapi collision shape player dan enemy agar interaksi fisik valid.
+3. Hubungkan flow combat -> enemy death -> quest progress event.
+4. Tambahkan tombol quick save/load untuk validasi `SaveManager`.
+5. Buat scene test quest giver NPC.
+
+## 6) Definition of Done Bootstrap
 - Scene bootstrap bisa load world scene.
 - Event bus dapat publish/subscribe event dasar.
 - 1 loop gameplay berjalan: bunuh enemy -> progress quest naik -> UI update.
