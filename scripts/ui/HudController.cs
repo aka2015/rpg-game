@@ -7,6 +7,7 @@ public partial class HudController : CanvasLayer
 {
     [Export] public Label QuestLabel = default!;
     [Export] public Label StatusLabel = default!;
+    [Export] public Label StatsLabel = default!;
 
     public override void _Ready()
     {
@@ -17,6 +18,7 @@ public partial class HudController : CanvasLayer
 
         GameManager.Instance.EventBus.Subscribe<QuestProgressChangedEvent>(OnQuestProgressChanged);
         GameManager.Instance.EventBus.Subscribe<QuestCompletedEvent>(OnQuestCompleted);
+        GameManager.Instance.EventBus.Subscribe<PlayerStatsChangedEvent>(OnPlayerStatsChanged);
     }
 
     private void OnQuestProgressChanged(QuestProgressChangedEvent gameEvent)
@@ -32,6 +34,14 @@ public partial class HudController : CanvasLayer
         if (StatusLabel != null)
         {
             StatusLabel.Text = $"Quest selesai: {gameEvent.QuestId}";
+        }
+    }
+
+    private void OnPlayerStatsChanged(PlayerStatsChangedEvent gameEvent)
+    {
+        if (StatsLabel != null)
+        {
+            StatsLabel.Text = $"HP {gameEvent.CurrentHp}/{gameEvent.MaxHp} | STA {gameEvent.CurrentStamina}/{gameEvent.MaxStamina} | LV {gameEvent.Level}";
         }
     }
 }

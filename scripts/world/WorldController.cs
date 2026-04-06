@@ -22,6 +22,7 @@ public partial class WorldController : Node3D
         GameManager.Instance.QuestManager.AddQuest(_killQuest);
 
         GameManager.Instance.EventBus.Subscribe<EnemyDiedEvent>(OnEnemyDied);
+        PublishPlayerStats();
     }
 
     public override void _ExitTree()
@@ -58,6 +59,13 @@ public partial class WorldController : Node3D
     private void OnEnemyDied(EnemyDiedEvent gameEvent)
     {
         GameManager.Instance.QuestManager.RegisterEnemyDeath(gameEvent.EnemyId);
+
+        var player = GetNodeOrNull<PlayerController>(PlayerPath);
+        if (player != null)
+        {
+            player.Stats.AddExperience(15);
+            PublishPlayerStats();
+        }
     }
 
     private void TryAttackEnemy()
@@ -114,6 +122,7 @@ public partial class WorldController : Node3D
     {
         var player = GetNodeOrNull<PlayerController>(PlayerPath);
         var playerPos = player?.GlobalPosition ?? Vector3.Zero;
+        var stats = player?.Stats;
 
         var data = new SaveData
         {
@@ -121,6 +130,10 @@ public partial class WorldController : Node3D
             PlayerPosX = playerPos.X,
             PlayerPosY = playerPos.Y,
             PlayerPosZ = playerPos.Z,
+            PlayerLevel = stats?.Level ?? 1,
+            PlayerExperience = stats?.Experience ?? 0,
+            PlayerCurrentHp = stats?.CurrentHp ?? 100,
+            PlayerCurrentStamina = stats?.CurrentStamina ?? 100,
             Quests = new[]
             {
                 new QuestSnapshot
@@ -149,10 +162,25 @@ public partial class WorldController : Node3D
         if (player != null)
         {
             player.GlobalPosition = new Vector3(data.PlayerPosX, data.PlayerPosY, data.PlayerPosZ);
+            player.RestoreStats(data.PlayerLevel, data.PlayerExperience, data.PlayerCurrentHp, data.PlayerCurrentStamina);
         }
 
         var quest = data.Quests[0];
         GameManager.Instance.QuestManager.RestoreQuest(quest.QuestId, quest.CurrentCount, quest.Status);
+        PublishPlayerStats();
         GD.Print($"Loaded quest: {quest.QuestId} progress={quest.CurrentCount}");
+    }
+
+    private void PublishPlayerStats()
+    {
+        var player = GetNodeOrNull<PlayerController>(PlayerPath);
+        if (player == null)
+        {
+            return;
+        }
+
+        var stats = player.Stats;
+        GameManager.Instance.EventBus.Publish(
+            new PlayerStatsChangedEvent(stats.CurrentHp, stats.MaxHp, stats.CurrentStamina, stats.MaxStamina, stats.Level));
     }
 }

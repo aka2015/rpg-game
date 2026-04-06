@@ -5,3 +5,4 @@ public readonly record struct PlayerDamagedEvent(int CurrentHp) : IGameEvent;
 public readonly record struct QuestProgressChangedEvent(string QuestId, int Current, int Required) : IGameEvent;
 public readonly record struct QuestCompletedEvent(string QuestId) : IGameEvent;
 public readonly record struct PlayerLevelUpEvent(int Level) : IGameEvent;
+public readonly record struct PlayerStatsChangedEvent(int CurrentHp, int MaxHp, int CurrentStamina, int MaxStamina, int Level) : IGameEvent;

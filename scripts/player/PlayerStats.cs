@@ -41,6 +41,34 @@ public sealed class PlayerStats
         }
     }
 
+    public void Restore(int level, int experience, int currentHp, int currentStamina)
+    {
+        Level = level < 1 ? 1 : level;
+        Experience = experience < 0 ? 0 : experience;
+
+        RecalculateDerivedFromLevel();
+
+        CurrentHp = currentHp;
+        if (CurrentHp < 0)
+        {
+            CurrentHp = 0;
+        }
+        if (CurrentHp > MaxHp)
+        {
+            CurrentHp = MaxHp;
+        }
+
+        CurrentStamina = currentStamina;
+        if (CurrentStamina < 0)
+        {
+            CurrentStamina = 0;
+        }
+        if (CurrentStamina > MaxStamina)
+        {
+            CurrentStamina = MaxStamina;
+        }
+    }
+
     private int RequiredExperienceForNextLevel()
     {
         return Level * 100;
@@ -55,5 +83,13 @@ public sealed class PlayerStats
         Defense += 1;
         CurrentHp = MaxHp;
         CurrentStamina = MaxStamina;
+    }
+
+    private void RecalculateDerivedFromLevel()
+    {
+        MaxHp = 100 + ((Level - 1) * 10);
+        MaxStamina = 100 + ((Level - 1) * 5);
+        Attack = 10 + ((Level - 1) * 2);
+        Defense = 4 + (Level - 1);
     }
 }

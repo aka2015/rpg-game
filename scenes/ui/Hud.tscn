@@ -14,3 +14,8 @@ offset_top = 20.0
 text = "Status: -"
 offset_left = 20.0
 offset_top = 48.0
+
+[node name="StatsLabel" type="Label" parent="."]
+text = "HP 0/0 | STA 0/0 | LV 1"
+offset_left = 20.0
+offset_top = 76.0
