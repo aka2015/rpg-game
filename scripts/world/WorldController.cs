@@ -9,6 +9,8 @@ namespace Project.World;
 
 public partial class WorldController : Node3D
 {
+    private const int DefaultSaveSlot = 1;
+
     [Export] public NodePath EnemyPath = "EnemyDummy";
     [Export] public NodePath PlayerPath = "Player";
     [Export] public string ActiveQuestId = "kill_001";
@@ -87,7 +89,7 @@ public partial class WorldController : Node3D
 
         if (result.Count == 0)
         {
-            GD.Print("Attack missed.");
+            GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Attack missed", false));
             return;
         }
 
@@ -95,7 +97,7 @@ public partial class WorldController : Node3D
         var enemy = FindEnemyAncestor(collider);
         if (enemy == null)
         {
-            GD.Print("Hit non-enemy target.");
+            GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Hit non-enemy target", false));
             return;
         }
 
@@ -145,16 +147,16 @@ public partial class WorldController : Node3D
             }
         };
 
-        GameManager.Instance.SaveManager.SaveToUserPath("save_01.json", data);
-        GD.Print("Saved: user://save_01.json");
+        GameManager.Instance.SaveManager.SaveToSlot(DefaultSaveSlot, data);
+        GameManager.Instance.EventBus.Publish(new SaveOperationEvent($"Saved slot {DefaultSaveSlot}", true));
     }
 
     private void QuickLoad()
     {
-        var data = GameManager.Instance.SaveManager.LoadFromUserPath("save_01.json");
+        var data = GameManager.Instance.SaveManager.LoadFromSlot(DefaultSaveSlot);
         if (data.Quests.Length == 0)
         {
-            GD.Print("No quest progress found in save.");
+            GameManager.Instance.EventBus.Publish(new SaveOperationEvent($"Slot {DefaultSaveSlot} empty", false));
             return;
         }
 
@@ -168,7 +170,7 @@ public partial class WorldController : Node3D
         var quest = data.Quests[0];
         GameManager.Instance.QuestManager.RestoreQuest(quest.QuestId, quest.CurrentCount, quest.Status);
         PublishPlayerStats();
-        GD.Print($"Loaded quest: {quest.QuestId} progress={quest.CurrentCount}");
+        GameManager.Instance.EventBus.Publish(new SaveOperationEvent($"Loaded slot {DefaultSaveSlot}", true));
     }
 
     private void PublishPlayerStats()

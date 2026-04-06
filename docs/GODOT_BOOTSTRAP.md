@@ -57,7 +57,7 @@ project/
 
 ## 6) Langkah Berikutnya
 1. Combat sudah upgrade ke raycast sederhana ke hitbox enemy; tahap berikutnya tambahkan animasi timing + combo attack.
-2. Save/load sekarang sudah restore quest + stat + posisi player; berikutnya rapikan ke sistem save slot dan versioning data.
+2. Save/load sekarang sudah memakai save slot + metadata version/timestamp; berikutnya tambahkan migrasi schema jika versi data berubah.
 3. Tambahkan feedback visual/audio untuk enemy hit/death dan quest complete.
 
 ## 7) Definition of Done Bootstrap

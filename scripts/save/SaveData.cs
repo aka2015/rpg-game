@@ -4,6 +4,11 @@ namespace Project.Save;
 
 public sealed class SaveData
 {
+    public const int CurrentVersion = 1;
+
+    public int Version { get; set; } = CurrentVersion;
+    public string TimestampUtc { get; set; } = string.Empty;
+
     public int PlayerLevel { get; set; }
     public int PlayerExperience { get; set; }
     public int PlayerCurrentHp { get; set; }
