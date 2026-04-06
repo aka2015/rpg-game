@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud"]
+
+[ext_resource type="Script" path="res://scripts/ui/HudController.cs" id="1_hud"]
+
+[node name="Hud" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="QuestLabel" type="Label" parent="."]
+text = "Quest: 0/0"
+offset_left = 20.0
+offset_top = 20.0
+
+[node name="StatusLabel" type="Label" parent="."]
+text = "Status: -"
+offset_left = 20.0
+offset_top = 48.0
