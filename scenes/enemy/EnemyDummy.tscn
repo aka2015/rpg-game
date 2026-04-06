@@ -4,3 +4,7 @@
 
 [node name="EnemyDummy" type="Node3D"]
 script = ExtResource("1_enemy")
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]

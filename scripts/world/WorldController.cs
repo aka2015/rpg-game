@@ -62,22 +62,52 @@ public partial class WorldController : Node3D
 
     private void TryAttackEnemy()
     {
-        var enemy = GetNodeOrNull<EnemyDummy>(EnemyPath);
         var player = GetNodeOrNull<PlayerController>(PlayerPath);
-        if (enemy == null || player == null)
+        if (player == null)
         {
-            GD.Print("No enemy or player to process attack.");
+            GD.Print("No player found for attack.");
             return;
         }
 
-        var distance = player.GlobalPosition.DistanceTo(enemy.GlobalPosition);
-        if (distance > AttackRange)
+        var from = player.GlobalPosition + Vector3.Up;
+        var forward = -player.GlobalBasis.Z;
+        var to = from + forward * AttackRange;
+
+        var query = PhysicsRayQueryParameters3D.Create(from, to);
+        query.CollideWithAreas = true;
+        var result = GetWorld3D().DirectSpaceState.IntersectRay(query);
+
+        if (result.Count == 0)
         {
-            GD.Print($"Out of range. Current distance: {distance:0.00}");
+            GD.Print("Attack missed.");
+            return;
+        }
+
+        var collider = result["collider"].AsGodotObject() as Node;
+        var enemy = FindEnemyAncestor(collider);
+        if (enemy == null)
+        {
+            GD.Print("Hit non-enemy target.");
             return;
         }
 
         enemy.ApplyDamage(25);
+    }
+
+    private static EnemyDummy? FindEnemyAncestor(Node? collider)
+    {
+        var current = collider;
+        while (current != null)
+        {
+            if (current is EnemyDummy enemy)
+            {
+                return enemy;
+            }
+
+            current = current.GetParent();
+        }
+
+        return null;
     }
 
     private void QuickSave()

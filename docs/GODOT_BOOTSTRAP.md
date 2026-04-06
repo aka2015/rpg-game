@@ -56,7 +56,7 @@ project/
 4. Scene `QuestGiver` sudah ditambahkan untuk start quest via aksi `interact`.
 
 ## 6) Langkah Berikutnya
-1. Combat sudah pakai cek jarak player-enemy (range), tahap berikutnya upgrade ke raycast/hitbox.
+1. Combat sudah upgrade ke raycast sederhana ke hitbox enemy; tahap berikutnya tambahkan animasi timing + combo attack.
 2. Load quest progress sudah sinkron ke `QuestRuntime`; berikutnya perlu restore stat player lebih lengkap.
 3. Tambahkan feedback visual/audio untuk enemy hit/death dan quest complete.
 
