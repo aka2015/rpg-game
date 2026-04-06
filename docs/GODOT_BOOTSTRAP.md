@@ -56,9 +56,9 @@ project/
 4. Scene `QuestGiver` sudah ditambahkan untuk start quest via aksi `interact`.
 
 ## 6) Langkah Berikutnya
-1. Tambahkan combat jarak dekat aktual (raycast/hitbox dari player, bukan `attack`).
-2. Sinkronisasi load data ke `QuestRuntime` agar progress save benar-benar dipulihkan.
-3. Tambahkan feedback visual untuk enemy hit/death dan quest complete.
+1. Combat sudah pakai cek jarak player-enemy (range), tahap berikutnya upgrade ke raycast/hitbox.
+2. Load quest progress sudah sinkron ke `QuestRuntime`; berikutnya perlu restore stat player lebih lengkap.
+3. Tambahkan feedback visual/audio untuk enemy hit/death dan quest complete.
 
 ## 7) Definition of Done Bootstrap
 - Scene bootstrap bisa load world scene.
