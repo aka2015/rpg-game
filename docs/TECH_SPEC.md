@@ -19,8 +19,8 @@ Dokumen ini mendefinisikan spesifikasi teknis tahap 2 (pre-production teknis + v
 - Crafting system penuh.
 
 ## 3. Target Engine dan Standar
-- **Engine target:** Unity 2022/2023 LTS (direkomendasikan).
-- **Bahasa:** C#.
+- **Engine target:** Godot 4.2+ (direkomendasikan).
+- **Bahasa:** GDScript atau C# (pilihan tim).
 - **Paradigma:** Modular component + data-driven + event-driven.
 - **Version control:** Git, branch feature kecil per modul.
 

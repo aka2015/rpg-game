@@ -156,7 +156,7 @@ Assets/
 
 ## 10. Pipeline Produksi
 ### 10.1 Tools
-- Engine: Unity atau Godot 4.
+- Engine: Godot 4 (utama).
 - Version control: Git + GitHub.
 - Task management: Trello/Notion.
 
