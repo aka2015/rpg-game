@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://player"]
+
+[ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_pc"]
+[ext_resource type="Script" path="res://scripts/player/CameraFollow.cs" id="2_cam"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_pc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_cam")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+current = true
