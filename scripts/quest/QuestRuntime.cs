@@ -38,4 +38,15 @@ public sealed class QuestRuntime
             Status = QuestStatus.Completed;
         }
     }
+
+    public void RestoreProgress(int currentCount, QuestStatus status)
+    {
+        CurrentCount = currentCount < 0 ? 0 : currentCount;
+        if (CurrentCount > RequiredCount)
+        {
+            CurrentCount = RequiredCount;
+        }
+
+        Status = status;
+    }
 }

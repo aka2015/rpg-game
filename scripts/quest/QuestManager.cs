@@ -18,6 +18,11 @@ public sealed class QuestManager
         _quests[quest.QuestId] = quest;
     }
 
+    public QuestRuntime? GetQuest(string questId)
+    {
+        return _quests.TryGetValue(questId, out var quest) ? quest : null;
+    }
+
     public void StartQuest(string questId)
     {
         if (!_quests.TryGetValue(questId, out var quest))
@@ -41,6 +46,21 @@ public sealed class QuestManager
             {
                 _eventBus.Publish(new QuestCompletedEvent(quest.QuestId));
             }
+        }
+    }
+
+    public void RestoreQuest(string questId, int currentCount, QuestStatus status)
+    {
+        if (!_quests.TryGetValue(questId, out var quest))
+        {
+            return;
+        }
+
+        quest.RestoreProgress(currentCount, status);
+        _eventBus.Publish(new QuestProgressChangedEvent(quest.QuestId, quest.CurrentCount, quest.RequiredCount));
+        if (quest.Status == QuestStatus.Completed)
+        {
+            _eventBus.Publish(new QuestCompletedEvent(quest.QuestId));
         }
     }
 }

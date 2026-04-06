@@ -31,7 +31,7 @@ interact={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"physical_keycode":69)]
 }
-attack_test={
+attack={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"physical_keycode":70)]
 }

@@ -23,7 +23,7 @@ public partial class WorldController : Node3D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("attack_test"))
+        if (@event.IsActionPressed("attack"))
         {
             TryAttackEnemy();
         }
@@ -90,6 +90,8 @@ public partial class WorldController : Node3D
             return;
         }
 
-        GD.Print($"Loaded quest: {data.Quests[0].QuestId} progress={data.Quests[0].CurrentCount}");
+        var quest = data.Quests[0];
+        GameManager.Instance.QuestManager.RestoreQuest(quest.QuestId, quest.CurrentCount, quest.Status);
+        GD.Print($"Loaded quest: {quest.QuestId} progress={quest.CurrentCount}");
     }
 }

@@ -50,13 +50,13 @@ project/
 - HUD telah subscribe event `QuestProgressChangedEvent` dari `EventBus`.
 
 ## 5) Status Implementasi Lanjutan
-1. Input map dasar sudah ditambahkan di `project.godot` (`move_*`, `interact`, `attack_test`, `quick_save`, `quick_load`).
+1. Input map dasar sudah ditambahkan di `project.godot` (`move_*`, `interact`, `attack`, `quick_save`, `quick_load`).
 2. `WorldController` sudah menghubungkan flow `EnemyDiedEvent -> QuestManager.RegisterEnemyDeath`.
 3. Quick save/load dasar sudah ditambahkan via input (`F5`/`F6`) ke `user://save_01.json`.
 4. Scene `QuestGiver` sudah ditambahkan untuk start quest via aksi `interact`.
 
 ## 6) Langkah Berikutnya
-1. Tambahkan combat jarak dekat aktual (raycast/hitbox dari player, bukan `attack_test`).
+1. Tambahkan combat jarak dekat aktual (raycast/hitbox dari player, bukan `attack`).
 2. Sinkronisasi load data ke `QuestRuntime` agar progress save benar-benar dipulihkan.
 3. Tambahkan feedback visual untuk enemy hit/death dan quest complete.
 
