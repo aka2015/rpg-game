@@ -1,0 +1,11 @@
+; Engine configuration file.
+; Minimal bootstrap for Godot 4 project skeleton.
+
+config_version=5
+
+[application]
+config/name="rpg-game"
+run/main_scene="res://scenes/bootstrap/Bootstrap.tscn"
+
+[autoload]
+GameManager="*res://scripts/core/GameManager.cs"
