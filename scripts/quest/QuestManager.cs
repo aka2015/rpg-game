@@ -49,6 +49,22 @@ public sealed class QuestManager
         }
     }
 
+    public bool TurnInQuest(string questId)
+    {
+        if (!_quests.TryGetValue(questId, out var quest))
+        {
+            return false;
+        }
+
+        if (!quest.TurnIn())
+        {
+            return false;
+        }
+
+        _eventBus.Publish(new QuestTurnedInEvent(quest.QuestId));
+        return true;
+    }
+
     public void RestoreQuest(string questId, int currentCount, QuestStatus status)
     {
         if (!_quests.TryGetValue(questId, out var quest))
@@ -61,6 +77,10 @@ public sealed class QuestManager
         if (quest.Status == QuestStatus.Completed)
         {
             _eventBus.Publish(new QuestCompletedEvent(quest.QuestId));
+        }
+        if (quest.Status == QuestStatus.TurnedIn)
+        {
+            _eventBus.Publish(new QuestTurnedInEvent(quest.QuestId));
         }
     }
 }

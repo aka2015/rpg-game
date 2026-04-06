@@ -26,9 +26,9 @@ public partial class PlayerController : CharacterBody3D
         MoveAndSlide();
     }
 
-    public void RestoreStats(int level, int exp, int hp, int stamina)
+    public void RestoreStats(int level, int exp, int hp, int stamina, int gold)
     {
-        Stats.Restore(level, exp, hp, stamina);
+        Stats.Restore(level, exp, hp, stamina, gold);
     }
 
     public void PlayAttackAnimation(int comboIndex)

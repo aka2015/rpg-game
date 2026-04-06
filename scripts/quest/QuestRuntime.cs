@@ -39,6 +39,17 @@ public sealed class QuestRuntime
         }
     }
 
+    public bool TurnIn()
+    {
+        if (Status != QuestStatus.Completed)
+        {
+            return false;
+        }
+
+        Status = QuestStatus.TurnedIn;
+        return true;
+    }
+
     public void RestoreProgress(int currentCount, QuestStatus status)
     {
         CurrentCount = currentCount < 0 ? 0 : currentCount;

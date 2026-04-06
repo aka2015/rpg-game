@@ -10,6 +10,7 @@ public sealed class PlayerStats
     public int Defense { get; private set; } = 4;
     public int Level { get; private set; } = 1;
     public int Experience { get; private set; }
+    public int Gold { get; private set; }
 
     public void ReceiveDamage(int amount)
     {
@@ -41,10 +42,20 @@ public sealed class PlayerStats
         }
     }
 
-    public void Restore(int level, int experience, int currentHp, int currentStamina)
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+        if (Gold < 0)
+        {
+            Gold = 0;
+        }
+    }
+
+    public void Restore(int level, int experience, int currentHp, int currentStamina, int gold)
     {
         Level = level < 1 ? 1 : level;
         Experience = experience < 0 ? 0 : experience;
+        Gold = gold < 0 ? 0 : gold;
 
         RecalculateDerivedFromLevel();
 

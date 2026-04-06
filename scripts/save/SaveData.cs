@@ -13,6 +13,7 @@ public sealed class SaveData
     public int PlayerExperience { get; set; }
     public int PlayerCurrentHp { get; set; }
     public int PlayerCurrentStamina { get; set; }
+    public int PlayerGold { get; set; }
     public float PlayerPosX { get; set; }
     public float PlayerPosY { get; set; }
     public float PlayerPosZ { get; set; }

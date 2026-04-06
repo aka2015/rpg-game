@@ -58,7 +58,7 @@ project/
 ## 6) Langkah Berikutnya
 1. Combat kini sinkron ke trigger animasi attack per combo step + raycast hitbox; berikutnya implement blend tree/animation state machine penuh.
 2. Save/load sudah punya slot + versioning + migrasi sederhana; berikutnya perlu backward compatibility test antar beberapa versi save.
-3. Feedback hit/death sudah ada via tween + HUD message; berikutnya tambahkan asset VFX/SFX final untuk kualitas production.
+3. Quest flow sekarang mendukung turn-in + reward EXP/Gold; berikutnya tambahkan VFX/SFX final serta balancing reward curve.
 
 ## 7) Definition of Done Bootstrap
 - Scene bootstrap bisa load world scene.

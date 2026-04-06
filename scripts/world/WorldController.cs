@@ -17,6 +17,8 @@ public partial class WorldController : Node3D
     [Export] public float AttackRange = 2.25f;
     [Export] public int ComboWindowMs = 900;
     [Export] public int AttackCooldownMs = 250;
+    [Export] public int QuestTurnInExpReward = 100;
+    [Export] public int QuestTurnInGoldReward = 50;
 
     private readonly int[] _comboDamages = { 18, 26, 34 };
     private int _comboIndex;
@@ -61,7 +63,40 @@ public partial class WorldController : Node3D
 
     public void StartQuestFromNpc()
     {
-        GameManager.Instance.QuestManager.StartQuest(ActiveQuestId);
+        var quest = GameManager.Instance.QuestManager.GetQuest(ActiveQuestId);
+        if (quest == null)
+        {
+            return;
+        }
+
+        if (quest.Status == QuestStatus.NotStarted)
+        {
+            GameManager.Instance.QuestManager.StartQuest(ActiveQuestId);
+            GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Quest dimulai", true));
+            return;
+        }
+
+        if (quest.Status == QuestStatus.Completed)
+        {
+            var turnedIn = GameManager.Instance.QuestManager.TurnInQuest(ActiveQuestId);
+            if (turnedIn)
+            {
+                var player = GetNodeOrNull<PlayerController>(PlayerPath);
+                if (player != null)
+                {
+                    player.Stats.AddExperience(QuestTurnInExpReward);
+                    player.Stats.AddGold(QuestTurnInGoldReward);
+                    PublishPlayerStats();
+                }
+
+                GameManager.Instance.EventBus.Publish(
+                    new SaveOperationEvent($"Quest reward +{QuestTurnInExpReward} EXP +{QuestTurnInGoldReward} Gold", true));
+            }
+
+            return;
+        }
+
+        GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Quest masih berjalan", false));
     }
 
     private void OnEnemyDied(EnemyDiedEvent gameEvent)
@@ -161,6 +196,7 @@ public partial class WorldController : Node3D
             PlayerExperience = stats?.Experience ?? 0,
             PlayerCurrentHp = stats?.CurrentHp ?? 100,
             PlayerCurrentStamina = stats?.CurrentStamina ?? 100,
+            PlayerGold = stats?.Gold ?? 0,
             Quests = new[]
             {
                 new QuestSnapshot
@@ -189,7 +225,7 @@ public partial class WorldController : Node3D
         if (player != null)
         {
             player.GlobalPosition = new Vector3(data.PlayerPosX, data.PlayerPosY, data.PlayerPosZ);
-            player.RestoreStats(data.PlayerLevel, data.PlayerExperience, data.PlayerCurrentHp, data.PlayerCurrentStamina);
+            player.RestoreStats(data.PlayerLevel, data.PlayerExperience, data.PlayerCurrentHp, data.PlayerCurrentStamina, data.PlayerGold);
         }
 
         var quest = data.Quests[0];
@@ -208,6 +244,6 @@ public partial class WorldController : Node3D
 
         var stats = player.Stats;
         GameManager.Instance.EventBus.Publish(
-            new PlayerStatsChangedEvent(stats.CurrentHp, stats.MaxHp, stats.CurrentStamina, stats.MaxStamina, stats.Level));
+            new PlayerStatsChangedEvent(stats.CurrentHp, stats.MaxHp, stats.CurrentStamina, stats.MaxStamina, stats.Level, stats.Gold));
     }
 }

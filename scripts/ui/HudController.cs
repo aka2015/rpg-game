@@ -18,6 +18,7 @@ public partial class HudController : CanvasLayer
 
         GameManager.Instance.EventBus.Subscribe<QuestProgressChangedEvent>(OnQuestProgressChanged);
         GameManager.Instance.EventBus.Subscribe<QuestCompletedEvent>(OnQuestCompleted);
+        GameManager.Instance.EventBus.Subscribe<QuestTurnedInEvent>(OnQuestTurnedIn);
         GameManager.Instance.EventBus.Subscribe<PlayerStatsChangedEvent>(OnPlayerStatsChanged);
         GameManager.Instance.EventBus.Subscribe<SaveOperationEvent>(OnSaveOperation);
         GameManager.Instance.EventBus.Subscribe<CombatFeedbackEvent>(OnCombatFeedback);
@@ -35,7 +36,15 @@ public partial class HudController : CanvasLayer
     {
         if (StatusLabel != null)
         {
-            StatusLabel.Text = $"Quest selesai: {gameEvent.QuestId}";
+            StatusLabel.Text = $"Quest selesai: {gameEvent.QuestId}. Turn-in ke NPC.";
+        }
+    }
+
+    private void OnQuestTurnedIn(QuestTurnedInEvent gameEvent)
+    {
+        if (StatusLabel != null)
+        {
+            StatusLabel.Text = $"Quest turn-in berhasil: {gameEvent.QuestId}";
         }
     }
 
@@ -43,7 +52,7 @@ public partial class HudController : CanvasLayer
     {
         if (StatsLabel != null)
         {
-            StatsLabel.Text = $"HP {gameEvent.CurrentHp}/{gameEvent.MaxHp} | STA {gameEvent.CurrentStamina}/{gameEvent.MaxStamina} | LV {gameEvent.Level}";
+            StatsLabel.Text = $"HP {gameEvent.CurrentHp}/{gameEvent.MaxHp} | STA {gameEvent.CurrentStamina}/{gameEvent.MaxStamina} | LV {gameEvent.Level} | Gold {gameEvent.Gold}";
         }
     }
 
