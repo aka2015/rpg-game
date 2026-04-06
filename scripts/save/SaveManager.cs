@@ -44,7 +44,7 @@ public sealed class SaveManager
             return new SaveData();
         }
 
-        return data;
+        return MigrateIfNeeded(data);
     }
 
     public void SaveToSlot(int slotIndex, SaveData data)
@@ -61,5 +61,20 @@ public sealed class SaveManager
     {
         var safeIndex = slotIndex < 0 ? 0 : slotIndex;
         return $"save_slot_{safeIndex}.json";
+    }
+
+    private static SaveData MigrateIfNeeded(SaveData data)
+    {
+        if (data.Version < 2)
+        {
+            if (string.IsNullOrWhiteSpace(data.TimestampUtc))
+            {
+                data.TimestampUtc = DateTime.UtcNow.ToString("O");
+            }
+
+            data.Version = 2;
+        }
+
+        return data;
     }
 }

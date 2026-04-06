@@ -19,6 +19,13 @@ public partial class EnemyDummy : Node3D
     public void ApplyDamage(int incoming)
     {
         var isDead = _stats.ApplyDamage(incoming);
+
+        if (GameManager.Instance != null)
+        {
+            var message = isDead ? "Enemy defeated" : $"Enemy hit ({_stats.CurrentHp} HP left)";
+            GameManager.Instance.EventBus.Publish(new CombatFeedbackEvent(message));
+        }
+
         if (!isDead)
         {
             return;

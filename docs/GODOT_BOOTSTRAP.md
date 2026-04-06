@@ -56,9 +56,9 @@ project/
 4. Scene `QuestGiver` sudah ditambahkan untuk start quest via aksi `interact`.
 
 ## 6) Langkah Berikutnya
-1. Combat sudah upgrade ke raycast sederhana ke hitbox enemy; tahap berikutnya tambahkan animasi timing + combo attack.
-2. Save/load sekarang sudah memakai save slot + metadata version/timestamp; berikutnya tambahkan migrasi schema jika versi data berubah.
-3. Tambahkan feedback visual/audio untuk enemy hit/death dan quest complete.
+1. Combat sekarang punya cooldown + combo damage sederhana di atas raycast hitbox; berikutnya tinggal sinkronisasi ke animation state machine.
+2. Save/load sudah pakai slot + versioning + migrasi v1->v2 sederhana; berikutnya perlu migrasi schema yang lebih kompleks dan aman.
+3. Feedback combat/save sudah dipublish ke HUD via event; berikutnya tambahkan VFX/SFX asset nyata di scene.
 
 ## 7) Definition of Done Bootstrap
 - Scene bootstrap bisa load world scene.

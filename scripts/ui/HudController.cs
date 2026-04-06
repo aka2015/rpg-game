@@ -20,6 +20,7 @@ public partial class HudController : CanvasLayer
         GameManager.Instance.EventBus.Subscribe<QuestCompletedEvent>(OnQuestCompleted);
         GameManager.Instance.EventBus.Subscribe<PlayerStatsChangedEvent>(OnPlayerStatsChanged);
         GameManager.Instance.EventBus.Subscribe<SaveOperationEvent>(OnSaveOperation);
+        GameManager.Instance.EventBus.Subscribe<CombatFeedbackEvent>(OnCombatFeedback);
     }
 
     private void OnQuestProgressChanged(QuestProgressChangedEvent gameEvent)
@@ -47,6 +48,14 @@ public partial class HudController : CanvasLayer
     }
 
     private void OnSaveOperation(SaveOperationEvent gameEvent)
+    {
+        if (StatusLabel != null)
+        {
+            StatusLabel.Text = gameEvent.Message;
+        }
+    }
+
+    private void OnCombatFeedback(CombatFeedbackEvent gameEvent)
     {
         if (StatusLabel != null)
         {

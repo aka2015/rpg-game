@@ -4,7 +4,7 @@ namespace Project.Save;
 
 public sealed class SaveData
 {
-    public const int CurrentVersion = 1;
+    public const int CurrentVersion = 2;
 
     public int Version { get; set; } = CurrentVersion;
     public string TimestampUtc { get; set; } = string.Empty;

@@ -15,6 +15,12 @@ public partial class WorldController : Node3D
     [Export] public NodePath PlayerPath = "Player";
     [Export] public string ActiveQuestId = "kill_001";
     [Export] public float AttackRange = 2.25f;
+    [Export] public int ComboWindowMs = 900;
+    [Export] public int AttackCooldownMs = 250;
+
+    private readonly int[] _comboDamages = { 18, 26, 34 };
+    private int _comboIndex;
+    private ulong _lastAttackTimeMs;
 
     private QuestRuntime _killQuest = default!;
 
@@ -72,6 +78,19 @@ public partial class WorldController : Node3D
 
     private void TryAttackEnemy()
     {
+        var now = Time.GetTicksMsec();
+        if (now - _lastAttackTimeMs < (ulong)AttackCooldownMs)
+        {
+            return;
+        }
+
+        if (now - _lastAttackTimeMs > (ulong)ComboWindowMs)
+        {
+            _comboIndex = 0;
+        }
+
+        _lastAttackTimeMs = now;
+
         var player = GetNodeOrNull<PlayerController>(PlayerPath);
         if (player == null)
         {
@@ -89,7 +108,7 @@ public partial class WorldController : Node3D
 
         if (result.Count == 0)
         {
-            GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Attack missed", false));
+            GameManager.Instance.EventBus.Publish(new CombatFeedbackEvent("Attack missed"));
             return;
         }
 
@@ -97,11 +116,14 @@ public partial class WorldController : Node3D
         var enemy = FindEnemyAncestor(collider);
         if (enemy == null)
         {
-            GameManager.Instance.EventBus.Publish(new SaveOperationEvent("Hit non-enemy target", false));
+            GameManager.Instance.EventBus.Publish(new CombatFeedbackEvent("Hit non-enemy target"));
             return;
         }
 
-        enemy.ApplyDamage(25);
+        var damage = _comboDamages[_comboIndex % _comboDamages.Length];
+        _comboIndex += 1;
+        GameManager.Instance.EventBus.Publish(new CombatFeedbackEvent($"Combo hit x{_comboIndex} ({damage} dmg)"));
+        enemy.ApplyDamage(damage);
     }
 
     private static EnemyDummy? FindEnemyAncestor(Node? collider)
