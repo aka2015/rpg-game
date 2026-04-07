@@ -1,0 +1,15 @@
+[gd_scene load_steps=6 format=3 uid="uid://world"]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/enemy/EnemyDummy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/ui/Hud.tscn" id="3_hud"]
+[ext_resource type="Script" path="res://scripts_gd/world/WorldController.gd" id="4_world_script"]
+[ext_resource type="PackedScene" path="res://scenes/npc/QuestGiver.tscn" id="5_npc"]
+
+[node name="World" type="Node3D"]
+script = ExtResource("4_world_script")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+[node name="EnemyDummy" parent="." instance=ExtResource("2_enemy")]
+[node name="Hud" parent="." instance=ExtResource("3_hud")]
+[node name="QuestGiver" parent="." instance=ExtResource("5_npc")]
