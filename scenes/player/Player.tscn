@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://player"]
 
-[ext_resource type="Script" path="res://scripts/player/PlayerController.cs" id="1_pc"]
-[ext_resource type="Script" path="res://scripts/player/CameraFollow.cs" id="2_cam"]
+[ext_resource type="Script" path="res://scripts_gd/player/PlayerController.gd" id="1_pc"]
+[ext_resource type="Script" path="res://scripts_gd/player/CameraFollow.gd" id="2_cam"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_pc")

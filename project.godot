@@ -8,7 +8,7 @@ config/name="rpg-game"
 run/main_scene="res://scenes/bootstrap/Bootstrap.tscn"
 
 [autoload]
-GameManager="*res://scripts/core/GameManager.cs"
+GameManager="*res://scripts_gd/core/GameManager.gd"
 
 [input]
 move_left={
